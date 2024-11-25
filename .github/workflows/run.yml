@@ -1,0 +1,34 @@
+name: Run Colab Notebook
+
+on:
+  schedule:
+    - cron: '15 9-16 * * 1-5'  # Schedule to run every weekday from 9:15 AM to 4:00 PM IST
+  workflow_dispatch:  # Allows manual trigger if needed
+
+jobs:
+  run_notebook:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install Dependencies
+        run: |
+          pip install --upgrade pip
+          pip install google-colab nbconvert
+
+      - name: Run the Colab notebook
+        run: |
+          # Clone the GitHub repository to a local folder
+          git clone https://github.com/username/repository.git
+          cd repository
+
+          # Convert the notebook to a Python script and execute it
+          jupyter nbconvert --to script notebook_name.ipynb
+          python notebook_name.py
