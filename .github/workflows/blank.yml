@@ -1,0 +1,27 @@
+name: Run Python Script Automatically
+
+on:
+  schedule:
+    - cron: '0 9 * * *'  # Runs at 9 AM UTC every day (adjust the schedule as needed)
+  workflow_dispatch:  # Allows you to manually trigger the workflow from GitHub UI
+
+jobs:
+  run-python-script:
+    runs-on: ubuntu-latest  # Runs on the latest version of Ubuntu
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3  # Checks out the code from the repository
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.8'  # Set Python version (you can choose a different version)
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt  # Install dependencies from a requirements file if needed
+
+    - name: Run Python script
+      run: |
+        python my_script.py  # Replace with your Python script, or commands to run a Colab notebook
